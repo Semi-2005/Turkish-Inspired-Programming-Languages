@@ -110,6 +110,26 @@ eger (x > 5) {
 - **SymbolTable.java** → Stores declared identifiers and metadata.
 
 
+## Sample Programs and Test Cases
+
+Sample source codes and test files are located in the `tests/` folder. The project includes both **valid** test cases to demonstrate correct language syntax and **invalid** test cases to verify the error-handling capabilities of the Lexer, Parser, and Symbol Table.
+
+### ✅ Valid Test Files
+These files contain correct syntax, obey the language rules, and should be processed by the compiler without any errors:
+- `ArithmeticExample.txt`: Demonstrates mathematical operations and assignments.
+- `ConditionalExample.txt`: Demonstrates `eger` / `degilse` (if/else) logic, reversed parentheses `)(`, and block scoping `[[ ]]`.
+- `LoopExample.txt`: Demonstrates the `dongu` (while) structure.
+- `VariableDeclarationExample.txt`: Demonstrates variable definitions with language-specific data types (`tam`, `ondlk`, `cml`, etc.).
+
+### ❌ Invalid Test Files
+These files contain intentional lexical, syntactic, or semantic errors to test if the compiler correctly catches and reports them:
+- `InvalidVariableDeclarationExample.txt`: Tests *Duplicate* variable declarations and *Undefined* variable assignments (Triggers SymbolTable exceptions).
+- `InvalidConditionalExample.txt`: Tests incorrect block braces (e.g., `{` instead of `[[`), traditional parentheses `()`, and invalid comparison operators.
+- `InvalidLoopExample.txt`: Tests unclosed string literals and missing end-of-statement markers (`:`).
+- `InvalidArithmeticExample.txt`: Tests unrecognized characters (e.g., `^`) and incorrect assignment operators (Triggers Lexer errors).
+
+
+
 ## Development Status
 **Complated** 
 
