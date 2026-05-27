@@ -1,40 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Lexer.java — TürkDil Dili Sözcüksel Çözümleyici (Lexical Analyzer)
- *
- * ─── SEBesta CH.4 BAĞLANTISI ───────────────────────────────────────────────
- *
- * Bu sınıf, Sebesta "Concepts of Programming Languages" 10th Ed., Chapter 4'te
- * sunulan lex() fonksiyonunun nesne-yönelimli Java uyarlamasıdır.
- *
- * Sebesta'nın C tabanlı lex() fonksiyonundaki yapı:
- *   - Karakter karakter okuma (nextChar() eşdeğeri: getNextChar())
- *   - Boşluk atlama (whitespace skipping)
- *   - Harf → identifier veya keyword
- *   - Rakam → integer literal
- *   - Operatör / ayırıcı → tek veya çift karakter token
- *   - Bilinmeyen → lexical error
- *
- * Bu implementasyonda Sebesta'nın yaklaşımı şu şekilde genişletilmiştir:
- *   - Türkçe karakterler (ç, ğ, ı, ö, ş, ü, Ç, Ğ, İ, Ö, Ş, Ü) tanımlayıcı
- *     ve anahtar sözcüklerde geçerli sayılır.
- *   - SymbolTable entegrasyonu: lookup ile keyword/identifier ayrımı yapılır.
- *   - Satır sayacı (lineNumber) hata raporlama için tutulur.
- *   - Tek satır (//) ve çok satır (/* ... &#42;/) yorum desteği eklendi.
- *
- * Based on: Sebesta, "Concepts of Programming Languages", 10th Ed., Ch. 4
- * ─────────────────────────────────────────────────────────────────────────────
- */
 public class Lexer {
 
     // ─── Özel İstisna Sınıfı / Custom Exception ───────────────────────────────
 
-    /**
-     * Sözcüksel hata (lexical error) oluştuğunda fırlatılır.
-     * Hata mesajı satır numarasını ve sorunlu karakteri içerir.
-     */
     public static class LexerException extends RuntimeException {
         public LexerException(String message) {
             super(message);
@@ -43,24 +13,16 @@ public class Lexer {
 
     // ─── Durum Alanları / State Fields ───────────────────────────────────────
 
-    /** Tüm kaynak kod tek bir String olarak tutulur. */
     private final String source;
 
-    /** Şu an incelenen karakterin kaynak koddaki indeksi (Sebesta'daki charIndex). */
     private int pos;
 
-    /** O an işlenen satırın numarası (hata raporlaması için). */
     private int lineNumber;
 
-    /** Keyword ve identifier ayrımı için kullanılan sembol tablosu. */
     private final SymbolTable symbolTable;
 
     // ─── Yapılandırıcı / Constructor ──────────────────────────────────────────
 
-    /**
-     * @param source      Analiz edilecek kaynak kod metni
-     * @param symbolTable Önceden hazırlanmış sembol tablosu
-     */
     public Lexer(String source, SymbolTable symbolTable) {
         this.source      = source;
         this.symbolTable = symbolTable;
@@ -70,81 +32,43 @@ public class Lexer {
 
     // ─── Yardımcı Metotlar / Helper Methods ───────────────────────────────────
 
-    /**
-     * Geçerli karakteri döner, ilerlemez.
-     * Sebesta'daki peek() eşdeğeri.
-     */
     private char peek() {
         if (pos >= source.length()) return '\0';
         return source.charAt(pos);
     }
 
-    /**
-     * Bir sonraki karakteri döner (lookahead), ilerlemez.
-     * Çift karakterli operatörler (==, !=, <=, >=, ++, --) için kullanılır.
-     */
     private char peekNext() {
         if (pos + 1 >= source.length()) return '\0';
         return source.charAt(pos + 1);
     }
 
-    /**
-     * Geçerli karakteri tüketir ve sonraki konuma ilerler.
-     * Sebesta'daki nextChar() eşdeğeri.
-     * Yeni satır karakterini gördüğünde lineNumber'ı artırır.
-     *
-     * @return Tüketilen karakter
-     */
     private char advance() {
         char c = source.charAt(pos++);
         if (c == '\n') lineNumber++;
         return c;
     }
 
-    /**
-     * Kaynak kod sona erdiyse true döner.
-     */
     private boolean isAtEnd() {
         return pos >= source.length();
     }
 
-    /**
-     * Verilen karakterin ASCII veya Türkçe harf olup olmadığını kontrol eder.
-     * Sebesta'nın isalpha() eşdeğeri, Türkçe karakterler eklenerek genişletildi.
-     *
-     * Desteklenen Türkçe karakterler:
-     *   Küçük: ç ğ ı ö ş ü
-     *   Büyük: Ç Ğ İ Ö Ş Ü
-     */
     private boolean isLetter(char c) {
         if (Character.isLetter(c)) return true;
         // Türkçe özel karakterler (ASCII dışı)
         return "çğışüöÇĞİŞÜÖ".indexOf(c) >= 0;
     }
 
-    /**
-     * Verilen karakterin rakam olup olmadığını kontrol eder.
-     * Sebesta'nın isdigit() eşdeğeri.
-     */
     private boolean isDigit(char c) {
         return c >= '0' && c <= '9';
     }
 
-    /**
-     * Verilen karakterin tanımlayıcı gövdesinde (identifier body) geçerli
-     * olup olmadığını kontrol eder: harf, rakam veya alt çizgi.
-     */
     private boolean isIdentChar(char c) {
         return isLetter(c) || isDigit(c) || c == '_';
     }
 
     // ─── Yorum Atlama / Comment Skipping ─────────────────────────────────────
 
-    /**
-     * Tek satır (//) ve çok satır (/* ... *\/) yorumları atlar.
-     * Boşluk ve yorum atlama, Sebesta Ch.4 lex() başlangıcındaki
-     * "skip whitespace" bloğunun genişletilmiş halidir.
-     */
+
     private void skipWhitespaceAndComments() {
         while (!isAtEnd()) {
             char c = peek();
@@ -179,21 +103,6 @@ public class Lexer {
 
     // ─── Ana Lexer Metodu / Core Lexer Method ────────────────────────────────
 
-    /**
-     * Kaynak koddan bir sonraki token'ı okur ve döner.
-     *
-     * Bu metod Sebesta Ch.4'teki lex() fonksiyonunun doğrudan Java uyarlamasıdır.
-     * Sebesta'nın C kodu yapısı:
-     *   1. Boşluk atla
-     *   2. EOF → DONE döndür
-     *   3. isalpha() → identifier veya keyword oku
-     *   4. isdigit() → integer literal oku
-     *   5. Operatör/ayırıcı → switch ile eşleştir
-     *   6. Bilinmeyen → error
-     *
-     * @return Bir sonraki Token nesnesi
-     * @throws LexerException Tanınmayan karakter bulunursa
-     */
     public Token nextToken() {
         // ── ADIM 1: Boşluk ve yorumları atla (Sebesta: skip whitespace) ───────
         skipWhitespaceAndComments();
@@ -267,17 +176,6 @@ public class Lexer {
 
     // ─── Identifier / Keyword Okuma ───────────────────────────────────────────
 
-    /**
-     * Mevcut konumdan itibaren bir identifier veya keyword okur.
-     *
-     * Sebesta Ch.4 algoritması:
-     *   while (isalpha(nextChar) || isdigit(nextChar))
-     *       identBuffer += nextChar
-     *   lookup(identBuffer) → keyword mi yoksa identifier mi?
-     *
-     * @param tokenLine Token'ın başladığı satır
-     * @return Keyword veya IDENTIFIER token'ı
-     */
     private Token readIdentifierOrKeyword(int tokenLine) {
         StringBuilder sb = new StringBuilder();
 
@@ -303,17 +201,6 @@ public class Lexer {
 
     // ─── Integer Literal Okuma ────────────────────────────────────────────────
 
-    /**
-     * Mevcut konumdan itibaren bir tam sayı literali okur.
-     *
-     * Sebesta Ch.4 algoritması:
-     *   while (isdigit(nextChar))
-     *       intBuffer += nextChar
-     *   return INT_LITERAL token
-     *
-     * @param tokenLine Token'ın başladığı satır
-     * @return INT_LITERAL token'ı
-     */
     private Token readIntLiteral(int tokenLine) {
         StringBuilder sb = new StringBuilder();
 
@@ -326,14 +213,6 @@ public class Lexer {
 
     // ─── Toplu Tokenize Etme / Batch Tokenization ────────────────────────────
 
-    /**
-     * Kaynak kodun tamamını tokenize eder ve token listesini döner.
-     * nextToken() metodunu EOF token'ına ulaşana kadar döngü içinde çağırır.
-     *
-     * Bu metod Main.java'nın token listesini tek seferde almasını sağlar.
-     *
-     * @return Tüm token'ların listesi (son eleman her zaman EOF)
-     */
     public List<Token> tokenize() {
         List<Token> tokens = new ArrayList<>();
         Token token;

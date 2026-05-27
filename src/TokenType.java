@@ -1,39 +1,32 @@
-/**
- * TokenType.java — TürkDil Dili Token Kategorileri
- *
- * Sebesta Ch.4 yaklaşımına göre: her token kategorisi bir enum sabiti ile temsil edilir.
- * Lexer bu enum değerlerini döndürür; Parser bu değerleri eşleştirir.
- *
- * Based on: Sebesta, "Concepts of Programming Languages", 10th Ed., Ch. 4
- */
+
 public enum TokenType {
 
     // ─── Anahtar Sözcükler (Keywords) ─────────────────────────────────────────
-    DEGISKEN,   // degisken  → değişken bildirimi (variable declaration)
-    EGER,       // eger      → koşul ifadesi (if)
-    YOKSA,      // yoksa     → aksi takdirde (else)
-    DONGU,      // dongu     → döngü (while)
-    ICIN,       // icin      → için (for)
-    YAZDIR,     // yazdir    → çıktı (print)
+    DEGISKEN,   // degisken  → variable declaration
+    EGER,       // eger      → if
+    YOKSA,      // yoksa     → else
+    DONGU,      // dongu     → while
+    ICIN,       // icin      → for
+    YAZDIR,     // yazdir    → print
     DOGRU,      // dogru     → boolean true
     YANLIS,     // yanlis    → boolean false
-    VE,         // ve        → mantıksal VE (logical AND)
-    VEYA,       // veya      → mantıksal VEYA (logical OR)
-    DEGIL,      // degil     → mantıksal DEĞİL (logical NOT)
+    VE,         // ve        → logical AND
+    VEYA,       // veya      → logical OR
+    DEGIL,      // degil     → logical NOT
 
     // ─── Değişmezler / Literals ───────────────────────────────────────────────
     INT_LITERAL,    // 0, 1, 42, 100, ...
 
     // ─── Tanımlayıcı / Identifier ─────────────────────────────────────────────
-    IDENTIFIER,     // kullanıcı tanımlı isimler (user-defined names)
+    IDENTIFIER,     // user-defined names
 
-    // ─── Aritmetik Operatörler / Arithmetic Operators ────────────────────────
+    // ─── Arithmetic Operators ────────────────────────
     PLUS,       // +
     MINUS,      // -
     MULT,       // *
     DIV,        // /
 
-    // ─── İlişkisel Operatörler / Relational Operators ────────────────────────
+    // ─── Relational Operators ────────────────────────
     EQ,         // ==
     NEQ,        // !=
     LT,         // <
@@ -41,14 +34,14 @@ public enum TokenType {
     LTE,        // <=
     GTE,        // >=
 
-    // ─── Atama / Assignment ───────────────────────────────────────────────────
+    // ─── Assignment ───────────────────────────────────────────────────
     ASSIGN,     // =
 
-    // ─── Artırma / Azaltma ────────────────────────────────────────────────────
+    // ─── Increase / Decrease ────────────────────────────────────────────────────
     INCREMENT,  // ++
     DECREMENT,  // --
 
-    // ─── Ayırıcılar / Separators ─────────────────────────────────────────────
+    // ─── Separators ─────────────────────────────────────────────
     LPAREN,     // (
     RPAREN,     // )
     LBRACE,     // {
@@ -56,7 +49,7 @@ public enum TokenType {
     SEMICOLON,  // ;
     COMMA,      // ,
 
-    // ─── Özel / Special ───────────────────────────────────────────────────────
-    EOF,        // dosya sonu (end of file)
-    UNKNOWN     // tanınmayan karakter (unrecognized character → lexical error)
+    // ─── Special ───────────────────────────────────────────────────────
+    EOF,        // end of file
+    UNKNOWN     // unrecognized character → lexical error
 }
