@@ -12,7 +12,12 @@ public class Main {
             "tests/ArithmeticExample.txt",
             "tests/ConditionalExample.txt",
             "tests/LoopExample.txt",
-            "tests/VariableDeclarationExample.txt"
+            "tests/VariableDeclarationExample.txt",
+            "tests/InvalidArithmeticExample.txt",
+            "tests/InvalidConditionalExample.txt",
+            "tests/InvalidLoopExample.txt",
+            "tests/InvalidVariableDeclarationExample.txt"
+
     };
 
     public static void main(String[] args) {
