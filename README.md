@@ -56,18 +56,16 @@ tests/
 Sample source codes are located in the `tests/` folder.
 
 ## How to Run
-```bash
-javac src/*.java
-java -cp src Main
-```
+
+*Run* Main.java
 
 ## Example Syntax
 ```text
-tam x;
+degisken x;
 x = 5 + 3;
 
 eger (x > 5) {
-   yaz x;
+   yazdir(x);
 }
 ```
 
@@ -113,7 +111,11 @@ eger (x > 5) {
 
 
 ## Development Status
-**In Progress** 🚧
+**Complated** 
 
-## Authors
-Programming Languages Course Project Team
+## Contributors
+Programming Languages Course Project Team:
+Semi Kazar      - 230316066
+Ufuk Akkuzu     - 230316049
+Berat Uzdil     - 230316043
+Berkay Altunbag - 230316009
