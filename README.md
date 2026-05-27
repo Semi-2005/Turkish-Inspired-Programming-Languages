@@ -135,7 +135,7 @@ These files contain intentional lexical, syntactic, or semantic errors to test i
 
 ## Contributors
 Programming Languages Course Project Team:
-Semi Kazar      - 230316066
-Ufuk Akkuzu     - 230316049
-Berat Uzdil     - 230316043
-Berkay Altunbag - 230316009
+- Semi Kazar      - 230316066
+- Ufuk Akkuzu     - 230316049
+- Berat Uzdil     - 230316043
+- Berkay Altunbag - 230316009
