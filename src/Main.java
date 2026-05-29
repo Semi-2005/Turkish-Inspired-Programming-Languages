@@ -78,10 +78,18 @@ public class Main {
 
             try {
 
-                source = new String(
-                        Files.readAllBytes(Paths.get(filePath)),
-                        StandardCharsets.UTF_8
-                );
+                try (var inputStream =
+                             Main.class.getClassLoader().getResourceAsStream(filePath)) {
+
+                    if (inputStream == null) {
+                        throw new IOException("Dosya bulunamadı.");
+                    }
+
+                    source = new String(
+                            inputStream.readAllBytes(),
+                            StandardCharsets.UTF_8
+                    );
+                }
 
             } catch (IOException e) {
 
